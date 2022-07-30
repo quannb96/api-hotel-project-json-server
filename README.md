@@ -1,11 +1,9 @@
 # fake-product-api-json-server
 
-_server_
-const data = require("./db.js");
-
+_server not auth_
 const jsonServer = require("json-server");
 const server = jsonServer.create();
-const router = jsonServer.router(data);
+const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 3005;
 
@@ -14,7 +12,7 @@ server.use(router);
 
 server.listen(port);
 
-#
+# server -auth
 
 const jsonServer = require("json-server");
 const auth = require("json-server-auth");

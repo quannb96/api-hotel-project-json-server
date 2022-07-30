@@ -1,34 +1,10 @@
 const jsonServer = require("json-server");
-const auth = require("json-server-auth");
 const server = jsonServer.create();
-const router = jsonServer.router("db.json"); //chổ này nếu bạn đăt tên file json khác thì sửa ở đây
+const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
-const port = Process.env.PORT || 3000;
-server.db = router.db;
+const port = process.env.PORT || 3005;
 
-// Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
-server.use(auth);
+server.use(router);
 
-// Add custom routes before JSON Server router
-server.get("/echo", (req, res) => {
-  res.jsonp(req.query);
-});
-
-// To handle POST, PUT and PATCH you need to use a body-parser
-// You can use the one used by JSON Server
-server.use(jsonServer.bodyParser);
-server.use((req, res, next) => {
-  if (req.method === "POST") {
-    req.body.createdAt = Date.now(); //chổ này là tự động tạo ngày tạo đối với phương thức post
-    req.body.updateAt = Date.now(); // chổ này tự động tạo ngày update vào đối tượng khi có sự thay đổi
-  }
-  // Continue to JSON Server router
-  next();
-});
-
-// Use default router
-server.use("/api/auth", auth); // chổ này là cấu hình đường dẫn cho phần auth vd đường dẫn base là http://localhost:3001/
-//thì đường dẫn vào trang đăng kí sẽ là http://localhost:3001/api/auth/resgister
-server.use("/api", router); // chổ này là cấu hình đường dẫn vào api chính
 server.listen(port);
