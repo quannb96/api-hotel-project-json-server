@@ -16,8 +16,6 @@ server.use(auth);
 //   res.jsonp(req.query);
 // });
 
-// You can use the one used by JSON Server
-server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   if (req.method === "POST") {
     req.body.createdAt = Date.now(); //chổ này là tự động tạo ngày tạo đối với phương thức post
